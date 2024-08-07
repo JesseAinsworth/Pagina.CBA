@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../LoginModal.css'; // Importa el archivo CSS aquí
+import '../LoginModal.css'; // Asegúrate de que esta ruta es correcta
 
 const admins = [
-    { username: 'Joel Velasco', password: 'Lerma-Metepec24' },
-    { username: 'Carlos Flores91', password: 'covercharly07' },
-    { username: 'CesarMtz', password: 'Retos33-1' },
+    { username: 'GrupoCBA', password: 'Cba.Mexico' },
 ];
 
 const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
@@ -26,38 +24,38 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
             if (typeof onLoginSuccess === 'function') {
                 onLoginSuccess();
             }
-            navigate('/tracking');
+            navigate('/tracking'); // Redirige a TrackingPage después de iniciar sesión
         } else {
             console.log('Credenciales incorrectas');
             alert('Credenciales incorrectas');
         }
     };
 
-    if (!isOpen) return null;
+    if (!isOpen) return null; // Si el modal no está abierto, no renderiza nada
 
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="form">
-                <h2 className="text-2xl mb-4 text-white">Iniciar Sesión</h2>
+            <div className="form bg-white p-6 rounded shadow-lg">
+                <h2 className="text-2xl mb-4">Iniciar Sesión</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block text-white">Nombre de usuario</label>
+                        <label className="block text-gray-700">Nombre de usuario</label>
                         <input 
                             type="text" 
                             value={username} 
                             onChange={(e) => setUsername(e.target.value)} 
-                            className="input" 
+                            className="input border rounded p-2 w-full"
                             placeholder="Ingrese su nombre de usuario"
                             required 
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-white">Contraseña</label>
+                        <label className="block text-gray-700">Contraseña</label>
                         <input 
                             type="password" 
                             value={password} 
                             onChange={(e) => setPassword(e.target.value)} 
-                            className="input" 
+                            className="input border rounded p-2 w-full"
                             placeholder="Ingrese su contraseña"
                             required 
                         />
@@ -66,13 +64,13 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                         <button 
                             type="button" 
                             onClick={onClose} 
-                            className="mr-4 cancel-button"
+                            className="mr-4 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
                         >
                             Cancelar
                         </button>
                         <button 
                             type="submit" 
-                            className="form-button"
+                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                         >
                             Iniciar Sesión
                         </button>

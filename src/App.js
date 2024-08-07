@@ -7,8 +7,10 @@ import Services from './pages/Services';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import TrackingPage from './pages/TrackingPage';
-
-import LoginModal from './components/LoginModal';
+import Admin1Page from './pages/Admin1Page';
+import Admin2Page from './pages/Admin2Page';
+import Admin3Page from './pages/Admin3Page';
+import LoginModal from './components/LoginModal'; // Asegúrate de que la ruta es correcta
 import './index.css';
 
 const App = () => {
@@ -27,7 +29,7 @@ const App = () => {
     const handleLoginSuccess = () => {
         setIsLoginOpen(false);
         setIsLoggedIn(true);
-        navigate('/tracking');
+        navigate('/tracking'); // Redirige a TrackingPage al iniciar sesión
     };
 
     const handleLogout = () => {
@@ -44,12 +46,12 @@ const App = () => {
                     <Route path="/servicios" element={<Services />} />
                     <Route path="/proyectos" element={<Projects />} />
                     <Route path="/contacto" element={<Contact />} />
-                    <Route 
-                        path="/tracking" 
-                        element={
-                            isLoggedIn ? <TrackingPage /> : <Navigate to="/" replace />
-                        } 
-                    />
+                    <Route path="/tracking" element={
+                        isLoggedIn ? <TrackingPage /> : <Navigate to="/" replace />
+                    } />
+                    <Route path="/admin1" element={<Admin1Page />} />
+                    <Route path="/admin2" element={<Admin2Page />} />
+                    <Route path="/admin3" element={<Admin3Page />} />
                 </Routes>
             </main>
             <Footer />

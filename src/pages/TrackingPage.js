@@ -2,11 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import axios from 'axios';
+import Modal from 'react-modal';
+import AdminPage from '../components/AdminPage'; // Ajusta la ruta si es necesario
+
+// Establecer el elemento raíz para el modal
+Modal.setAppElement('#root');
 
 const TrackingPage = () => {
   const [codes, setCodes] = useState([]);
   const [newCode, setNewCode] = useState('');
   const [newDescription, setNewDescription] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchCodes = async () => {
@@ -28,14 +34,28 @@ const TrackingPage = () => {
     }
   };
 
+  const handleOpenLogin = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleCloseLogin = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <div className="modules-page p-4 sm:p-8 bg-gray-100 bg-opacity-20 min-h-screen relative">
       <Link to="/tracking" className="mb-4 flex items-center text-blue-600 hover:underline">
         <FaArrowLeft className="mr-2" /> Volver al inicio
       </Link>
       <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-gray-800">Descripciones</h1>
-      
+
       <div className="mb-4">
+        <button
+          onClick={handleOpenLogin}
+          className="bg-green-600 text-white px-4 py-1 rounded mb-4 hover:bg-green-700"
+        >
+          Crear Proyecto
+        </button>
         <h2 className="text-xl font-bold mb-2">Agregar nuevo código</h2>
         <div className="flex flex-col sm:flex-row items-center mb-2">
           <input
@@ -79,6 +99,16 @@ const TrackingPage = () => {
           </tbody>
         </table>
       </div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={handleCloseLogin}
+        contentLabel="Login Modal"
+        className="modal"
+        overlayClassName="overlay"
+      >
+        <AdminPage onClose={handleCloseLogin} />
+      </Modal>
     </div>
   );
 };
