@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div class="loader" id="loader"></div>
+    <div id="root"></div>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const loader = document.getElementById('loader');
+        
+        // Muestra el loader
+        loader.style.display = 'block';
+        
+        // Simula la carga de la página y oculta el loader después de 3 segundos
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+const projectSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  codes: { type: String, required: true }, // Cambiado a String
+  location: { type: String, required: true },
+  status: { type: String, enum: ['En Progreso', 'Finalizado', 'Atrasado'], default: 'En Progreso' },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date },
+  notes: { type: String },
+  initialQuotation: { type: String },
+  finalQuotation: { type: String },
+  initialQuotationFile: { type: String },
+  finalQuotationFile: { type: String }
+});
+
+module.exports = mongoose.model('Project', projectSchema);
