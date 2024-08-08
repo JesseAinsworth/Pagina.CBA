@@ -1,0 +1,101 @@
+/* src/pages/TrackingPage.css */
+
+body {
+    font-family: var(--font-archivo), sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-archivo), sans-serif;
+  }
+  
+  .tracking-page {
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .tracking-page h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para la tabla de proyectos */
+  .bg-white {
+    background-color: white;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  
+  /* Estilos para las filas de la tabla */
+  .border-b {
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  /* Estilos para las celdas de la tabla */
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  
+  /* Estilos para los iconos de estado */
+  .inline-flex {
+    display: inline-flex;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .gap-2 {
+    gap: 0.5rem;
+  }
+  
+  .rounded-full {
+    border-radius: 9999px;
+  }
+  
+  /* Estilos para las tarjetas de estadísticas */
+  .grid {
+    display: grid;
+  }
+  
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .gap-6 {
+    gap: 1.5rem;
+  }
+  
+  .mt-8 {
+    margin-top: 2rem;
+  }
+  
+  /* Estilos responsivos */
+  @media (min-width: 640px) {
+    .sm\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .lg\:grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }

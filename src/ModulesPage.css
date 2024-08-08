@@ -1,0 +1,39 @@
+/* src/components/ModulesPage.css */
+
+.modules-page {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .modules-page h1 {
+    color: #333;
+  }
+  
+  .modules-page p {
+    color: #666;
+  }
+  
+  .modules-page .grid {
+    margin-top: 20px;
+  }
+  
+  .modules-page .grid > div {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .modules-page .grid h3 {
+    color: #333;
+  }
+  
+  .modules-page .grid ul {
+    margin-top: 10px;
+  }
+  
+  .modules-page .grid li {
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
