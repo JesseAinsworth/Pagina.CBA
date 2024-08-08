@@ -11,7 +11,8 @@ const projectSchema = new mongoose.Schema({
   initialQuotation: { type: String },
   finalQuotation: { type: String },
   initialQuotationFile: { type: String },
-  finalQuotationFile: { type: String }
+  finalQuotationFile: { type: String },
+  adminName: { type: String, required: true } // Añadido campo adminName
 });
 
 module.exports = mongoose.model('Project', projectSchema);

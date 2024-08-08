@@ -6,7 +6,6 @@ import StatCard from '../pages/StatCard';
 import '../TrackingPage.css';
 
 const AdminDashboard = () => {
-  const [isAdmin] = useState(true);
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     name: '',
@@ -22,9 +21,11 @@ const AdminDashboard = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
 
+  const adminName = 'nombreDelAdmin'; // Aquí deberías obtener el nombre del admin desde el estado o props
+
   const fetchProjects = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/projects');
+      const response = await fetch(`http://localhost:5000/api/projects?adminName=${adminName}`);
       if (!response.ok) {
         throw new Error('Error al obtener proyectos');
       }
@@ -34,7 +35,7 @@ const AdminDashboard = () => {
     } catch (error) {
       console.error('Error al obtener proyectos:', error);
     }
-  }, []);
+  }, [adminName]);
 
   useEffect(() => {
     fetchProjects();
@@ -105,6 +106,7 @@ const AdminDashboard = () => {
           }
         }
       });
+      formData.append('adminName', adminName);
 
       const response = await fetch(url, {
         method: method,
@@ -119,7 +121,6 @@ const AdminDashboard = () => {
       const updatedProject = await response.json();
       console.log('Respuesta del servidor:', updatedProject);
 
-      // Actualizar el estado local inmediatamente
       if (isEditing) {
         setProjects(prevProjects => 
           prevProjects.map(project => 
@@ -130,7 +131,6 @@ const AdminDashboard = () => {
         setProjects(prevProjects => [...prevProjects, updatedProject]);
       }
 
-      // Resetear el formulario y el estado de edición
       setNewProject({
         name: '',
         codes: [''],
@@ -145,7 +145,6 @@ const AdminDashboard = () => {
       setIsEditing(false);
       setCurrentProject(null);
 
-      // Actualizar la lista de proyectos
       fetchProjects();
 
     } catch (error) {
@@ -216,107 +215,122 @@ const AdminDashboard = () => {
       </div>
       <ProjectTable
         projects={projects}
-        isAdmin={isAdmin}
         onDeleteProject={handleDeleteProject}
         onEditProject={handleEditProject}
       />
-      {isAdmin && (
-        <form onSubmit={handleCreateProject} className="mt-4">
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-4">
-            <h2 className="text-xl font-semibold mb-4">{isEditing ? 'Editar Proyecto' : 'Crear Nuevo Proyecto'}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label htmlFor="name" className="font-medium mb-1">Nombre del Proyecto</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={newProject.name}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-md p-2"
-                  required
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="location" className="font-medium mb-1">Ubicación</label>
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  value={newProject.location}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-md p-2"
-                  required
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="status" className="font-medium mb-1">Estado</label>
-                <select
-                  id="status"
-                  name="status"
-                  value={newProject.status}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-md p-2"
-                >
-                  <option value="En Progreso">En Progreso</option>
-                  <option value="Finalizado">Finalizado</option>
-                  <option value="Atrasado">Atrasado</option>
-                </select>
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="startDate" className="font-medium mb-1">Fecha de Inicio</label>
-                <input
-                  type="date"
-                  id="startDate"
-                  name="startDate"
-                  value={newProject.startDate}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-md p-2"
-                  required
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="endDate" className="font-medium mb-1">Fecha de Fin</label>
-                <input
-                  type="date"
-                  id="endDate"
-                  name="endDate"
-                  value={newProject.endDate}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div className="flex flex-col md:col-span-2">
-                <label htmlFor="notes" className="font-medium mb-1">Notas</label>
-                <textarea
-                  id="notes"
-                  name="notes"
-                  value={newProject.notes}
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-md p-2"
-                />
-              </div>
+      <form onSubmit={handleCreateProject} className="mt-4">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-4">
+          <h2 className="text-xl font-semibold mb-4">{isEditing ? 'Editar Proyecto' : 'Crear Nuevo Proyecto'}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col">
+              <label htmlFor="name" className="font-medium mb-1">Nombre del Proyecto</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={newProject.name}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-2"
+                required
+              />
             </div>
-            <div className="mt-4">
-              <h3 className="font-medium mb-2">Códigos del Proyecto</h3>
+            <div className="flex flex-col">
+              <label htmlFor="location" className="font-medium mb-1">Ubicación</label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                value={newProject.location}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-2"
+                required
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="status" className="font-medium mb-1">Estado</label>
+              <select
+                id="status"
+                name="status"
+                value={newProject.status}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-2"
+              >
+                <option value="En Progreso">En Progreso</option>
+                <option value="Finalizado">Finalizado</option>
+                <option value="Atrasado">Atrasado</option>
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="startDate" className="font-medium mb-1">Fecha de Inicio</label>
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                value={newProject.startDate}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-2"
+                required
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="endDate" className="font-medium mb-1">Fecha de Finalización</label>
+              <input
+                type="date"
+                id="endDate"
+                name="endDate"
+                value={newProject.endDate}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="notes" className="font-medium mb-1">Notas</label>
+              <textarea
+                id="notes"
+                name="notes"
+                value={newProject.notes}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-2"
+                rows="3"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="initialQuotationFile" className="font-medium mb-1">Archivo de Cotización Inicial</label>
+              <input
+                type="file"
+                id="initialQuotationFile"
+                name="initialQuotationFile"
+                onChange={handleFileChange}
+                className="border border-gray-300 rounded-md p-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="finalQuotationFile" className="font-medium mb-1">Archivo de Cotización Final</label>
+              <input
+                type="file"
+                id="finalQuotationFile"
+                name="finalQuotationFile"
+                onChange={handleFileChange}
+                className="border border-gray-300 rounded-md p-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="codes" className="font-medium mb-1">Códigos</label>
               {newProject.codes.map((code, index) => (
                 <div key={index} className="flex items-center mb-2">
                   <input
                     type="text"
                     value={code}
                     onChange={(e) => handleCodeChange(index, e.target.value)}
-                    className="border border-gray-300 rounded-md p-2 mr-2"
-                    placeholder="Ingrese código"
+                    className="border border-gray-300 rounded-md p-2 flex-1"
                   />
-                  {newProject.codes.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeCode(index)}
-                      className="bg-red-500 text-white px-3 py-1 rounded-md"
-                    >
-                      -
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => removeCode(index)}
+                    className="ml-2 bg-red-500 text-white px-2 py-1 rounded-md"
+                  >
+                    Eliminar
+                  </button>
                 </div>
               ))}
               <button
@@ -324,65 +338,18 @@ const AdminDashboard = () => {
                 onClick={addCode}
                 className="bg-blue-500 text-white px-4 py-2 rounded-md"
               >
-                Añadir Código
+                Agregar Código
               </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <div className="flex flex-col">
-                <label htmlFor="initialQuotationFile" className="font-medium mb-1">Presupuesto Inicial</label>
-                <input
-                  type="file"
-                  id="initialQuotationFile"
-                  name="initialQuotationFile"
-                  onChange={handleFileChange}
-                  className="border border-gray-300 rounded-md p-2"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="finalQuotationFile" className="font-medium mb-1">Presupuesto Final</label>
-                <input
-                  type="file"
-                  id="finalQuotationFile"
-                  name="finalQuotationFile"
-                  onChange={handleFileChange}
-                  className="border border-gray-300 rounded-md p-2"
-                />
-              </div>
-            </div>
-            <div className="mt-4">
-              <button
-                type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded-md"
-              >
-                {isEditing ? 'Guardar Cambios' : 'Crear Proyecto'}
-              </button>
-              {isEditing && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsEditing(false);
-                    setCurrentProject(null);
-                    setNewProject({
-                      name: '',
-                      codes: [''],
-                      location: '',
-                      status: 'En Progreso',
-                      startDate: '',
-                      endDate: '',
-                      notes: '',
-                      initialQuotationFile: null,
-                      finalQuotationFile: null
-                    });
-                  }}
-                  className="bg-gray-500 text-white px-4 py-2 rounded-md ml-2"
-                >
-                  Cancelar
-                </button>
-              )}
             </div>
           </div>
-        </form>
-      )}
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
+          >
+            {isEditing ? 'Actualizar Proyecto' : 'Crear Proyecto'}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
